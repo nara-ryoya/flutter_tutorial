@@ -45,6 +45,37 @@ class MyAppState extends ChangeNotifier {
 class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+        body: Row(
+      children: [
+        SafeArea(
+            child: NavigationRail(
+          extended: false,
+          destinations: [
+            NavigationRailDestination(
+                icon: Icon(Icons.home), label: Text('Home')),
+            NavigationRailDestination(
+                icon: Icon(Icons.favorite), label: Text('Favorites')),
+          ],
+          selectedIndex: 0,
+          onDestinationSelected: (value) {
+            print('Selected: $value');
+          },
+        )),
+        Expanded(
+          child: Container(
+            color: Theme.of(context).colorScheme.primaryContainer,
+            child: GeneratorPage(),
+          ),
+        )
+      ],
+    ));
+  }
+}
+
+class GeneratorPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
     var pair = appState.current;
 
@@ -60,6 +91,7 @@ class MyHomePage extends StatelessWidget {
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Text('A random AWESOME idea:'),
           BigCard(pair: pair),
+          SizedBox(height: 10),
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
